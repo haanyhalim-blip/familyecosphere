@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Family Ecosphere v12 -->
+<!-- Family Ecosphere v13 -->
 <html lang="en-GB">
 <head>
 <meta charset="utf-8">
@@ -199,6 +199,7 @@ footer .ver{opacity:.6}
   .ask{margin-left:0}
 }
 @media (max-width:360px){.grid{grid-template-columns:1fr}}
+.fbfoot{font:inherit;color:inherit;background:none;border:0;padding:0;text-decoration:underline;text-underline-offset:2px;cursor:pointer}
 </style>
 </head>
 <body>
@@ -206,7 +207,7 @@ footer .ver{opacity:.6}
 <div class="wrap">
 <header>
   <h1>Family <span>Ecosphere</span></h1>
-  <button type="button" class="ask" id="askBtn" aria-expanded="false" aria-controls="askCard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/></svg>Tell us what would help</button>
+  <button type="button" class="ask" id="askBtn" aria-expanded="false" aria-controls="askCard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/></svg>Feedback</button>
   <p class="tag">Everyday tools for you and your family.</p>
   <div class="views" role="group" aria-label="View"><button type="button" data-view="orbit" aria-pressed="true">🪐 Orbit</button><button type="button" data-view="plain" aria-pressed="false">☰ List</button></div>
 </header>
@@ -245,7 +246,7 @@ footer .ver{opacity:.6}
 
 <p class="key"><span class="stripe" aria-hidden="true"></span><span><b>Early days:</b> you can still use these sites, but expect the look to be updated.</span></p>
 
-<footer>Family Ecosphere – made by Handy Little Tools. <span class="ver">v12</span></footer>
+<footer>Family Ecosphere – made by Handy Little Tools. <button type="button" class="fbfoot" id="fbFoot">Feedback</button> · <span class="ver">v13</span></footer>
 </div>
 <script>
 (function(){ var b = document.getElementById("askBtn"), c = document.getElementById("askCard");
@@ -331,6 +332,11 @@ footer .ver{opacity:.6}
   function draw(t){ x.clearRect(0, 0, w, h); for(var i = 0; i < S.length; i++){ var s = S[i], a = still ? .7 : .45 + .45 * Math.sin(s.p + t / 1000 * s.s); x.globalAlpha = a; x.fillStyle = "#fff"; x.beginPath(); x.arc(s.x, s.y, s.r, 0, 6.283); x.fill(); } }
   function loop(t){ draw(t); requestAnimationFrame(loop); }
   size(); window.addEventListener("resize", size); if(!still) requestAnimationFrame(loop); })();
+</script>
+<script>
+// the Feedback link at the bottom opens the same Feedback card as the button at the top
+(function(){ var f = document.getElementById("fbFoot"), b = document.getElementById("askBtn"); if(!f || !b) return;
+  f.addEventListener("click", function(e){ e.stopPropagation(); window.scrollTo({top:0, behavior:"smooth"}); if(b.getAttribute("aria-expanded") !== "true") b.click(); }); })();
 </script>
 </body>
 </html>
