@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Family Ecosphere – Dinner table topics v1 -->
+<!-- Family Ecosphere – Dinner table topics v2 -->
 <html lang="en-GB">
 <head>
 <meta charset="utf-8">
@@ -36,21 +36,47 @@ button.shuf{font:700 .95rem var(--body);border:0;border-radius:999px;padding:9px
 button.shuf:focus-visible{outline:3px solid #fff;outline-offset:2px}
 small{color:var(--muted)}
 .stripe{display:inline-block;width:26px;height:5px;border-radius:3px;background:repeating-linear-gradient(-45deg,#e8c200 0 4px,#1a1a1a 4px 8px);opacity:.8;vertical-align:middle;margin-right:6px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.signb{font:700 .85rem var(--body);border:1px solid var(--line);border-radius:999px;padding:7px 14px;background:var(--glass2);color:var(--ink);cursor:pointer}
+.signb.on{color:var(--sun)}
+.who{margin:14px 0 0}
+.who:first-of-type{margin-top:0}
+.who h3{font:600 1rem var(--disp);margin:0 0 6px;color:var(--sun)}
+.who ul{margin:0;padding-left:20px}
+.who li{margin:5px 0}
+.who li small{color:var(--muted)}
+.q{color:var(--ink)}
+.q::before{content:"💬 "}
+.got a{color:#8fb8ff}
+.load{color:var(--muted)}
+#acct{position:fixed;inset:0;background:rgba(3,6,18,.7);display:grid;place-items:center;padding:16px;z-index:9}
+#acct[hidden]{display:none}
+.acbox{position:relative;max-width:400px;width:100%;background:#121a3a;border:1px solid var(--line);border-radius:18px;padding:20px}
+.acbox h2{font:600 1.15rem var(--disp);margin:0 0 8px}
+.acbox label{display:block;font-weight:700;margin:10px 0 4px}
+.acbox input{width:100%;font:inherit;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:#0b1130;color:var(--ink)}
+.acgo{margin-top:10px;font:700 .95rem var(--body);border:0;border-radius:999px;padding:9px 18px;background:var(--sun);color:#1b1505;cursor:pointer}
+.aclink{margin:10px 0 0 10px;background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;font:inherit}
+.acx{position:absolute;top:8px;right:10px;background:none;border:0;color:var(--muted);font-size:1.5rem;cursor:pointer}
+.acsmall{color:var(--muted);font-size:.85rem}
+[hidden]{display:none!important}
 footer{margin-top:28px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:12px}
 footer .ver{opacity:.6}
 </style>
 </head>
 <body>
 <div class="wrap">
-<a class="back" href="/">← Family Ecosphere</a>
+<div class="top"><a class="back" href="/">← Family Ecosphere</a><button type="button" class="signb" id="acctBtn">Sign in</button></div>
 <h1>🍽️ Dinner table topics</h1>
 <p class="tag">Things worth talking about at dinner tonight.</p>
 
-<section class="card empty" aria-labelledby="sofar">
+<section class="card" id="gathered" hidden aria-labelledby="gh"><h2 id="gh">From your family's day</h2><div id="gbody"><p class="load">Gathering…</p></div></section>
+
+<section class="card empty" id="emptyCard" aria-labelledby="sofar">
   <span class="ic" aria-hidden="true">🌱</span>
   <div>
     <h2 id="sofar">Nothing gathered yet</h2>
-    <p>When you start using the other Family Ecosphere apps, a summary will be collected here of topics to bring up at dinner. For example:</p>
+    <p id="emptyMsg">Sign in with the same email as your other Family Ecosphere apps, and a summary is gathered here of topics to bring up at dinner. For example:</p>
     <ul>
       <li>what the children are learning this week, and one question to ask each of them</li>
       <li>what's coming up – a trip, a match, a school event</li>
@@ -67,7 +93,17 @@ footer .ver{opacity:.6}
 </section>
 
 <p><span class="stripe" aria-hidden="true"></span><small><b>Early days:</b> you can use this now, but expect it to grow and change.</small></p>
-<footer>Family Ecosphere – made by Handy Little Tools. <span class="ver">v1</span></footer>
+<div id="acct" hidden role="dialog" aria-modal="true" aria-labelledby="acTitle"><div class="acbox"><button class="acx" id="acX" type="button" aria-label="Close">×</button>
+  <h2 id="acTitle">Gather your family's day</h2>
+  <div id="acOut">
+    <p>Sign in with the email you use on DobyToday and LearnbyYear. Nothing new is stored – this page only reads what's already in your account, and only you can see it. No password: we email you a 6-digit code.</p>
+    <div id="acStep1"><label for="acEmail">Your email</label><input id="acEmail" type="email" autocomplete="email" inputmode="email" maxlength="200"><button class="acgo" id="acSend" type="button">Email me a code</button></div>
+    <div id="acStep2" hidden><p>We've sent a code to <b id="acTo"></b>. It can take a minute – check your junk folder too.</p><label for="acCode">The code from the email</label><input id="acCode" inputmode="numeric" autocomplete="one-time-code" maxlength="10"><button class="acgo" id="acGo" type="button">Sign in</button><button class="aclink" id="acBack" type="button">Use a different email</button></div>
+    <p class="acsmall" id="acNote">One sign-in works on all the Family Ecosphere sites.</p>
+  </div>
+  <div id="acIn" hidden><p>Signed in as <b id="acWho"></b>.</p><button class="acgo" id="acOutBtn" type="button">Sign out</button></div>
+</div></div>
+<footer>Family Ecosphere – made by Handy Little Tools. <span class="ver">v2</span></footer>
 </div>
 <script>
 (function(){
@@ -86,6 +122,109 @@ footer .ver{opacity:.6}
   function pick(){ var a = Q.slice(), out = []; for(var i = 0; i < 3; i++) out.push(a.splice(Math.floor(Math.random() * a.length), 1)[0]);
     el.innerHTML = out.map(function(q){ return "<li>" + q + "</li>"; }).join(""); }
   document.getElementById("shuf").addEventListener("click", pick); pick(); })();
+</script>
+<script>
+// Signed in: read (never change) the family's DobyToday and LearnbyYear data from the same account, and turn it into dinner topics.
+(function(){
+  var SB_URL = "https://nlbeqaoffratriysazrx.supabase.co", SB_KEY = "sb_publishable_HjyFCCwqTjqeAIV1bh28ww_li-Rw7CZ", asb = null, AUSER = null, acEmailV = "";
+  function $(id){ return document.getElementById(id); }
+  function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+  function acctLib(cb){ if(asb) return cb();
+    var go = function(){ try{ asb = supabase.createClient(SB_URL, SB_KEY, {auth:{persistSession:true, autoRefreshToken:true, storageKey:"hlt-auth", detectSessionInUrl:false}}); cb(); }catch(e){} };
+    if(window.supabase) go(); else { var sc = document.createElement("script"); sc.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"; sc.onload = go; document.head.appendChild(sc); } }
+  function acctUI(){ var b = $("acctBtn"); b.textContent = AUSER ? "✓ Signed in" : "Sign in"; b.classList.toggle("on", !!AUSER); $("acOut").hidden = !!AUSER; $("acIn").hidden = !AUSER; if(AUSER) $("acWho").textContent = AUSER.email || ""; }
+  function open(){ $("acct").hidden = false; $("acStep1").hidden = false; $("acStep2").hidden = true; acctUI(); if(!AUSER) setTimeout(function(){ $("acEmail").focus(); }, 50); }
+  function close(){ $("acct").hidden = true; }
+  function note(m){ $("acNote").textContent = m; }
+  $("acctBtn").addEventListener("click", open); $("acX").addEventListener("click", close); $("acct").addEventListener("click", function(e){ if(e.target === this) close(); });
+  $("acBack").addEventListener("click", function(){ $("acStep1").hidden = false; $("acStep2").hidden = true; });
+  function send(){ var em = $("acEmail").value.trim().toLowerCase(); if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){ note("Type your email address"); return; }
+    $("acSend").disabled = true; acctLib(function(){ asb.auth.signInWithOtp({email:em, options:{shouldCreateUser:false}}).then(function(res){ $("acSend").disabled = false;
+      if(res.error){ note(/rate|seconds/i.test(res.error.message) ? "Please wait a minute before asking for another code" : "Couldn't send the code – use the email you signed in with on DobyToday"); return; }
+      acEmailV = em; $("acTo").textContent = em; $("acStep1").hidden = true; $("acStep2").hidden = false; $("acCode").value = ""; $("acCode").focus(); }, function(){ $("acSend").disabled = false; note("Can't reach the server just now – try again in a minute"); }); }); }
+  function verify(){ var code = $("acCode").value.replace(/\D/g, ""); if(code.length < 6){ note("Type the code from the email"); return; }
+    $("acGo").disabled = true; asb.auth.verifyOtp({email:acEmailV, token:code, type:"email"}).then(function(res){ $("acGo").disabled = false;
+      if(res.error){ note("That code didn't work – check it, or send a new one"); return; } AUSER = res.data.user; acctUI(); close(); gather(); }, function(){ $("acGo").disabled = false; note("Can't reach the server just now – try again in a minute"); }); }
+  $("acSend").addEventListener("click", send); $("acGo").addEventListener("click", verify);
+  $("acEmail").addEventListener("keydown", function(e){ if(e.key === "Enter"){ e.preventDefault(); send(); } });
+  $("acCode").addEventListener("keydown", function(e){ if(e.key === "Enter"){ e.preventDefault(); verify(); } });
+  $("acOutBtn").addEventListener("click", function(){ if(!asb) return; asb.auth.signOut().then(function(){ AUSER = null; acctUI(); close(); $("gathered").hidden = true; $("emptyCard").hidden = false; }); });
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape" && !$("acct").hidden) close(); });
+
+  // ---------- turning cards into topics ----------
+  var DAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  var CHORE = /make your bed|brush (your )?teeth|shower|tidy|clean your|laundry|dining table|bag\b|bags\b|snack box|pick up|^breakfast|^dinner|planner|logins|unpack|get ready|clothes ready|^class links/i;
+  var LESSON = /^(english|maths?|science|pshe|pe\b|form time|reasoning|history|geography|re\b|music lesson|art|french|spanish|computing|phonics|assembly|lunch|break)\b/i;
+  var ROUTINE = /homework|reading|instrument|spelling|times tables|rock stars|exercise|routine|practi[cs]e/i;   // everyday things: they become a question, not news
+  var SLOT = /^(morning|afternoon|after school|evening|before school|bedtime)$/i;
+  function iso(d){ return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+  // "3:00–4:15 – Destin: football after school" → {who:["Destin"], what:"football after school", timed:true}
+  function parse(n){ var t = String(n || "").trim(), timed = false, m = t.match(/^(.{1,24}?)\s+[–-]\s+(.+)$/);
+    if(m && (/\d/.test(m[1]) || SLOT.test(m[1].trim()))){ timed = /\d/.test(m[1]); t = m[2]; }
+    var w = t.match(/^([A-Z][a-z]+(?:\s*(?:&|,|and)\s*[A-Z][a-z]+)*)\s*:\s*(.+)$/), who = [];
+    if(w){ who = w[1].split(/\s*(?:&|,|and)\s*/); t = w[2]; }
+    return {who:who, what:t.trim(), timed:timed}; }
+  function itemsOf(st){ var out = []; ((st && st.own) || []).forEach(function(o){ if(o && o.n) out.push({n:o.n, note:(st.note || {})[o.n] || "", got:!!o.got}); }); Object.keys((st && st.picked) || {}).forEach(function(n){ out.push({n:n, note:(st.note || {})[n] || "", got:!!(st.got || {})[n]}); }); return out; }
+  function dayCard(L, day){ return (L || []).filter(function(l){ return l && /timetable/i.test(l.group || "") && String(l.name || "").toLowerCase().indexOf(day.toLowerCase()) === 0; })[0]; }
+  function fmtD(d){ var p = String(d).split("-"); if(p.length !== 3) return d; var x = new Date(+p[0], +p[1] - 1, +p[2]); return DAYS[x.getDay()].slice(0, 3) + " " + x.getDate() + " " + ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][x.getMonth()]; }
+  function low(s){ return s.charAt(0).toLowerCase() + s.slice(1); }
+  function askFor(what){ var w = what.toLowerCase();
+    if(/read/.test(w)) return "What did you read today – what happened in it?";
+    if(/instrument|piano|violin|guitar/.test(w)) return "What did you play on your instrument today?";
+    if(/spelling/.test(w)) return "Can you spell one of this week's words for us?";
+    if(/times tables|ttrs|rock stars/.test(w)) return "What's your best times-tables score this week?";
+    if(/exercise|routine/.test(w)) return "";
+    if(/homework/.test(w)) return "What was the trickiest bit of homework today?";
+    return "How was " + low(what) + "?"; }
+  function gather(){ if(!AUSER || !asb) return; $("gathered").hidden = false; $("emptyCard").hidden = true; $("gbody").innerHTML = '<p class="load">Gathering…</p>';
+    Promise.all([asb.rpc("hlt_get", {p_site:"dobytoday"}), asb.rpc("hlt_get", {p_site:"learnbyyear"}).then(function(r){ return r; }, function(){ return {}; })]).then(function(rs){
+      var D = (rs[0] && rs[0].data) || {}, LB = (rs[1] && rs[1].data) || {}, kids = (LB.kids || []), now = new Date(), tom = new Date(now.getTime() + 864e5);
+      var P = {}, order = [];   // per person: today, tomorrow, homework, school, questions (asks from school first), everyday routines
+      function who(n){ if(!P[n]){ P[n] = {today:[], tom:[], hw:[], school:[], q:[], rt:[]}; order.push(n); } return P[n]; }
+      kids.forEach(function(k){ who(k.name); });
+      var everyone = who("The whole family");
+      function addDay(card, key){ if(!card) return; itemsOf(card.s).forEach(function(it){ var p = parse(it.n);
+        if(p.who.some(function(x){ return /^parents?$/i.test(x); })) return;
+        if(/school day done/i.test(p.what)){ var asks = (it.note || "").split(/\n/).filter(function(l){ return /^\s*[–-]?\s*ask (her|him|them)\b/i.test(l); }).map(function(l){ return l.replace(/^\s*[–-]?\s*ask (her|him|them)\s*:?\s*/i, ""); });
+          if(key === "today") p.who.forEach(function(n){ var e = who(n); e.today.push("School day"); asks.forEach(function(a){ e.q.push(a.charAt(0).toUpperCase() + a.slice(1)); }); if(!asks.length) e.q.push("What was the best bit of school today?"); }); return; }
+        if(CHORE.test(p.what) || LESSON.test(p.what)) return;
+        if(!p.who.length && !p.timed) return;
+        var targets = p.who.length ? p.who : ["The whole family"];
+        targets.forEach(function(n){ var e = who(n), k2 = ROUTINE.test(p.what) ? (key === "today" ? "rt" : "") : key; if(k2 && e[k2].indexOf(p.what) < 0) e[k2].push(p.what); }); }); }
+      addDay(dayCard(D.L, DAYS[now.getDay()]), "today"); addDay(dayCard(D.L, DAYS[tom.getDay()]), "tom");
+      // tomorrow's jobs already on the to-do list
+      ((D.s && D.s.later) || []).filter(function(j){ return j && j.d === iso(tom) && j.n; }).slice(0, 5).forEach(function(j){ var p = parse(j.n); (p.who.length ? p.who : ["The whole family"]).forEach(function(n){ var e = who(n); if(e.tom.indexOf(p.what) < 0) e.tom.push(p.what); }); });
+      // LearnbyYear: homework still to do, and what school said this week
+      var since = iso(new Date(now.getTime() - 7 * 864e5));
+      kids.forEach(function(k){ var e = who(k.name);
+        (k.hw || []).filter(function(x){ return !x.done; }).forEach(function(x){ e.hw.push({t:x.t, u:x.u, due:x.due}); });
+        (k.log || []).filter(function(x){ return (x.d || "") >= since; }).slice(-2).forEach(function(x){ e.school.push(x.t.length > 140 ? x.t.slice(0, 138) + "…" : x.t); }); });
+      // questions from what each person did today
+      order.forEach(function(n){ var e = P[n], add = function(q){ if(q && e.q.indexOf(q) < 0) e.q.push(q); };
+        e.today.forEach(function(w){ if(w !== "School day") add(askFor(w)); });
+        if(e.school.length) add("School sent news this week – tell us about it.");
+        if(e.hw.length) add("What's your homework this week, and which bit will you start with?");
+        if(e.tom.length) add("Tomorrow: " + e.tom.slice(0, 2).map(low).join(" and ") + " – anything to get ready tonight?");
+        e.rt.forEach(function(w){ add(askFor(w)); }); });
+      var fam = order.indexOf("The whole family"); if(fam > -1) order.push(order.splice(fam, 1)[0]);   // the family last, after each child
+      var h = "", any = false;
+      order.forEach(function(n){ var e = P[n]; if(!(e.today.length || e.tom.length || e.hw.length || e.school.length || e.q.length)) return; var td = e.today.filter(function(w){ return w !== "School day"; }); any = true;
+        h += '<div class="who"><h3>' + esc(n) + '</h3><ul>'
+          + (td.length ? '<li>Today: ' + esc(td.join(" · ")) + '</li>' : '')
+          + (e.tom.length ? '<li>Tomorrow: ' + esc(e.tom.join(" · ")) + '</li>' : '')
+          + e.hw.map(function(x){ return '<li class="got">Homework: ' + esc(x.t) + (x.due ? ' <small>– due ' + esc(fmtD(x.due)) + '</small>' : '') + (/^https?:\/\//.test(x.u || "") ? ' <a href="' + esc(x.u) + '" target="_blank" rel="noopener">Open ↗</a>' : '') + '</li>'; }).join("")
+          + e.school.map(function(t){ return '<li>From school: ' + esc(t) + '</li>'; }).join("")
+          + e.q.slice(0, 4).map(function(q){ return '<li class="q">' + esc(q) + '</li>'; }).join("") + '</ul></div>'; });
+      $("gbody").innerHTML = any ? h + '<p class="acsmall" style="margin-top:14px">Gathered from your Weekly timetable cards and to-do list in DobyToday' + (kids.length ? ', and LearnbyYear' : '') + '. Only you can see this.</p>'
+        : '<p>Nothing to gather for today yet. Put day cards in a DobyToday group called <b>Weekly timetable</b> (one per day, named “Monday – …”), and add your children on LearnbyYear – then today, tomorrow and homework show up here.</p>';
+    }, function(){ $("gbody").innerHTML = '<p>Couldn\'t reach your account just now – try again in a minute.</p>'; }); }
+  // arriving from another site with a one-time pass, or already signed in on this device
+  (function(){ var m = location.hash.match(/^#hlt=([^&]+)/); if(m){ var th = decodeURIComponent(m[1]); history.replaceState(null, "", location.pathname + location.search);
+      acctLib(function(){ asb.auth.verifyOtp({token_hash:th, type:"email"}).then(function(r){ return r.error ? asb.auth.verifyOtp({token_hash:th, type:"magiclink"}) : r; }).then(function(r){ if(r && !r.error && r.data && r.data.user){ AUSER = r.data.user; acctUI(); gather(); } }, function(){}); }); return; }
+    var has = false; try{ has = !!localStorage.getItem("hlt-auth"); }catch(e){}
+    if(has) acctLib(function(){ asb.auth.getSession().then(function(r){ AUSER = r.data && r.data.session ? r.data.session.user : null; acctUI(); if(AUSER) gather(); }); }); })();
+  document.addEventListener("visibilitychange", function(){ if(!document.hidden && AUSER) gather(); });
+})();
 </script>
 </body>
 </html>
