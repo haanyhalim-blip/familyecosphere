@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Family Ecosphere v6 -->
+<!-- Family Ecosphere v7 -->
 <html lang="en-GB">
 <head>
 <meta charset="utf-8">
@@ -154,6 +154,14 @@ button.core{border:0;cursor:pointer;font:inherit;padding:8px;display:flex;flex-d
 .key{font-size:.85rem}
 .key .stripe{width:26px}
 
+/* orbit: the early-days stripe underlines the site's name (phones keep it under the icon, as names are hidden there) */
+.sat.early .nm{padding-bottom:7px;background:repeating-linear-gradient(-45deg,#e8c200 0 4px,#1a1a1a 4px 8px) left bottom/100% 4px no-repeat}
+.sat.early .stripe{display:none}
+.sat.early .nm{top:calc(100% + 6px)}
+@media (max-width:640px){.sat.early .stripe{display:inline-block}}
+/* list: a bolder stripe so it reads at a glance */
+.prow .stripe{width:44px;height:8px;border-radius:4px;opacity:.9}
+
 footer{margin-top:34px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:12px}
 footer .ver{opacity:.6}
 
@@ -213,7 +221,7 @@ footer .ver{opacity:.6}
 
 <p class="key"><span class="stripe" aria-hidden="true"></span><span><b>Early days:</b> you can still use these sites, but expect the look to be updated.</span></p>
 
-<footer>Family Ecosphere – made by Handy Little Tools. <span class="ver">v6</span></footer>
+<footer>Family Ecosphere – made by Handy Little Tools. <span class="ver">v7</span></footer>
 </div>
 <script>
 (function(){ var b = document.getElementById("askBtn"), c = document.getElementById("askCard");
