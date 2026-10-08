@@ -1,0 +1,100 @@
+<!doctype html>
+<!-- Family Ecosphere v1 -->
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Family Ecosphere – everyday tools for you and your family</title>
+<meta name="description" content="Small, free, everyday tools for you and your family: to-do lists by when, packing by bag, shopping by aisle, films by values, learning by school year, good food for kids and a page to change a habit.">
+<link rel="canonical" href="https://familyecosphere.com/">
+<meta property="og:title" content="Family Ecosphere">
+<meta property="og:description" content="Small, free, everyday tools for you and your family.">
+<meta property="og:url" content="https://familyecosphere.com/">
+<meta name="theme-color" content="#2f5d3a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232f5d3a'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%23fff'/%3E%3Ccircle cx='32' cy='14' r='5' fill='%23fff'/%3E%3Ccircle cx='48' cy='41' r='5' fill='%23fff'/%3E%3Ccircle cx='16' cy='41' r='5' fill='%23fff'/%3E%3C/svg%3E">
+<style>
+:root{--bg:#f4f1ea;--card:#fff;--line:#ddd7c9;--ink:#1f2a22;--muted:#66705f;--green:#2f5d3a}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171b18;--card:#222824;--line:#3a423c;--ink:#eef2ee;--muted:#a9b3a8;--green:#8fc79c}}
+:root[data-theme="dark"]{--bg:#171b18;--card:#222824;--line:#3a423c;--ink:#eef2ee;--muted:#a9b3a8;--green:#8fc79c}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:28px 16px 40px}
+h1{font-family:Georgia,"Times New Roman",serif;font-size:2.1rem;margin:0;color:var(--green);letter-spacing:-.01em}
+.tag{font-size:1.15rem;font-weight:700;margin:4px 0 2px}
+.lead{color:var(--muted);margin:6px 0 10px}
+h2{font-size:1.2rem;margin:30px 0 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.tool{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:inherit;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:14px;transition:transform .1s,border-color .1s}
+.tool:hover{transform:translateY(-2px);border-color:var(--green)}
+.tool .ic{flex:none;width:48px;height:48px;border-radius:12px;display:grid;place-items:center;font-size:1.6rem;line-height:1;color:inherit}
+.tool b{display:block;font-size:1.05rem}
+.tool span{display:block;color:var(--muted);font-size:.92rem;line-height:1.35}
+.tool small{display:block;color:var(--muted);font-size:.78rem;margin-top:4px;opacity:.85}
+.how{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:6px 16px}
+.how p{margin:10px 0;line-height:1.55}
+.how b{color:var(--green)}
+footer{margin-top:34px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:12px}
+footer .ver{color:inherit;opacity:.6}
+/* "We're building this with you" – one line near the top; tap it for the full message and a box to send an idea */
+.bwy{margin:10px 0 4px;border:1.5px solid var(--line,#d9d9d9);border-radius:12px;background:var(--card,#fff);font-size:.95rem}
+.bwy>summary{cursor:pointer;list-style:none;padding:9px 14px;font-weight:700;color:var(--ink,inherit);display:flex;align-items:center;gap:8px}
+.bwy>summary::-webkit-details-marker{display:none}
+.bwy>summary::after{content:"›";margin-left:auto;color:var(--muted,#777);transition:transform .15s;font-size:1.2em;line-height:1}
+.bwy[open]>summary::after{transform:rotate(90deg)}
+.bwy .bwyb{padding:0 14px 14px}
+.bwy .bwyb p{margin:0 0 8px;line-height:1.5}
+.bwy textarea{display:block;width:100%;box-sizing:border-box;font:inherit;border:1.5px solid var(--line,#d9d9d9);border-radius:10px;padding:8px 10px;margin:4px 0 8px;min-height:64px;background:var(--card,#fff);color:inherit}
+.bwy .bwyr{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.bwy .bwys{font:inherit;font-weight:700;border:0;border-radius:999px;padding:8px 16px;cursor:pointer;background:var(--ink,#222);color:var(--card,#fff)}
+.bwy small{color:var(--muted,#777)}
+@media (prefers-color-scheme:dark){.ic{filter:saturate(.9) brightness(.92)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Family Ecosphere</h1>
+<p class="tag">Everyday tools for you and your family.</p>
+<p class="lead">Small, free helpers that each do one job well. Use one, or use them together. No app to install – they work in your phone's browser.</p>
+
+<details class="bwy" id="bwy"><summary>🌱 We're building this with you…</summary><div class="bwyb">
+  <p>These apps have one job: to be a handy, on-the-go helper for you and your family. That's it.</p>
+  <p>They keep growing based on what you need. If there's anything that would make them more helpful, let us know. We read every message, and we usually add things quickly.</p>
+  <label for="bwyText"><b>What would help you more?</b></label>
+  <textarea id="bwyText" maxlength="2000" placeholder="An idea, something missing, or something that gets in the way"></textarea>
+  <div class="bwyr"><button type="button" class="bwys" id="bwySend">Send</button><small id="bwyNote">No account needed.</small></div>
+</div></details>
+
+<h2>The tools</h2>
+<div class="grid">
+  <a class="tool" href="https://dobytoday.com/"><span class="ic" style="background:#f7e3d6">✅</span><div><b>DoByToday</b><span>To-do lists, sorted by when. Tick things off as the day goes.</span></div></a>
+  <a class="tool" href="https://listbyaisle.com/"><span class="ic" style="background:#e3e8f6">🛒</span><div><b>ListByAisle</b><span>Shopping lists, sorted by aisle, so you walk the shop once.</span></div></a>
+  <a class="tool" href="https://listbyaisle.com/good-food-for-kids"><span class="ic" style="background:#fbe9c9">🥦</span><div><b>Good Food for Kids</b><span>Healthier breakfasts, snacks and dinners children actually eat – and what's really in the snacks.</span><small>Part of ListByAisle</small></div></a>
+  <a class="tool" href="https://packbybag.com/"><span class="ic" style="background:#dfeee6">🧳</span><div><b>PackByBag</b><span>Packing lists, sorted by bag – school, sports, trips.</span></div></a>
+  <a class="tool" href="https://watchbyvalues.com/"><span class="ic" style="background:#ece6f5">🎬</span><div><b>WatchByValues</b><span>Films, by values – with moments to talk through together.</span></div></a>
+  <a class="tool" href="https://learnbyyear.com/"><span class="ic" style="background:#e6edfb">📚</span><div><b>LearnByYear</b><span>What your child learns this year, for home education or to support school.</span></div></a>
+  <a class="tool" href="https://dueareset.com/"><span class="ic" style="background:#e6efe0">🌱</span><div><b>DueAReset</b><span>A page of your own to change a habit, one small step at a time.</span></div></a>
+</div>
+
+<h2>How they fit together</h2>
+<div class="how">
+  <p><b>Morning:</b> DoByToday shows what's next, in time order – for you, or for everyone at home.</p>
+  <p><b>Before you leave:</b> PackByBag has the school bag, the sports kit and the trip bag ready to check.</p>
+  <p><b>At the shop:</b> ListByAisle sorts the list the way the shop is laid out. Good Food for Kids gives you ideas to put on it.</p>
+  <p><b>After school:</b> LearnByYear shows what this year's learning looks like, so you can help in small ways.</p>
+  <p><b>Evening:</b> WatchByValues helps choose a film together, with moments worth talking about after.</p>
+  <p><b>For you:</b> DueAReset is a quiet page of your own to build one better habit.</p>
+  <p>Sign in once and you stay signed in as you move between them. You can also ask your own Claude or ChatGPT to update your lists.</p>
+</div>
+
+<footer>Family Ecosphere – made by Handy Little Tools. <span class="ver">v1</span></footer>
+</div>
+<script>
+(function(){ var b = document.getElementById("bwySend"), t = document.getElementById("bwyText"), n = document.getElementById("bwyNote"); if(!b) return;
+  b.addEventListener("click", function(){ var v = t.value.trim(); if(!v){ n.textContent = "Write a line first."; t.focus(); return; } b.disabled = true; n.textContent = "Sending…";
+    fetch("https://formspree.io/f/meaqbeqq", {method:"POST", headers:{"Content-Type":"application/json", "Accept":"application/json"}, body: JSON.stringify({message:"[Family Ecosphere] Building with you: " + v, page: location.href})})
+      .then(function(r){ if(!r.ok) throw 0; t.value = ""; n.textContent = "Thank you – we've got it."; })
+      .catch(function(){ n.textContent = "That didn't send – check your connection and try again."; })
+      .then(function(){ b.disabled = false; }); }); })();
+</script>
+</body>
+</html>
