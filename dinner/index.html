@@ -1,0 +1,91 @@
+<!doctype html>
+<!-- Family Ecosphere – Dinner table topics v1 -->
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dinner table topics – Family Ecosphere</title>
+<meta name="description" content="Things worth talking about at dinner, gathered from what your family is doing – plus three good questions for tonight.">
+<link rel="canonical" href="https://familyecosphere.com/dinner/">
+<meta name="theme-color" content="#070b1a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23070b1a'/%3E%3Ccircle cx='32' cy='32' r='9' fill='%23ffd88a'/%3E%3Cellipse cx='32' cy='32' rx='24' ry='24' fill='none' stroke='%238fb8ff' stroke-width='2.5' stroke-dasharray='4 5'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap">
+<style>
+/* the same deep-space look as the Family Ecosphere page; one column: what's been gathered, then tonight's questions */
+:root{--space:#070b1a;--glass:rgba(255,255,255,.06);--glass2:rgba(255,255,255,.11);--line:rgba(160,190,255,.18);--ink:#eef2ff;--muted:#a3adcc;--sun:#ffd88a;
+  --disp:"Sora",system-ui,-apple-system,"Segoe UI",sans-serif;--body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{background:var(--space)}
+body{margin:0;color:var(--ink);font:16px/1.55 var(--body);min-height:100vh;background:radial-gradient(1000px 600px at 50% 0%,#18235a 0%,#0d1430 45%,var(--space) 80%)}
+.wrap{max-width:640px;margin:0 auto;padding-inline:16px;padding-block:24px 48px}
+.back{color:var(--muted);text-decoration:none;font-size:.9rem}
+.back:hover{color:var(--ink)}
+h1{font:700 clamp(1.7rem,5vw,2.3rem) var(--disp);margin:14px 0 4px}
+.tag{color:var(--muted);margin:0 0 20px}
+.card{background:var(--glass);border:1px solid var(--line);border-radius:18px;padding:18px 18px;margin:0 0 16px}
+.card h2{font:600 1.05rem var(--disp);margin:0 0 8px}
+.empty{display:flex;gap:14px;align-items:flex-start}
+.empty .ic{flex:none;font-size:2rem;line-height:1}
+.empty p{margin:0 0 8px;color:var(--ink)}
+.empty ul{margin:6px 0 0;padding-left:18px;color:var(--muted)}
+.empty li{margin:3px 0}
+ol.qs{margin:0;padding-left:22px}
+ol.qs li{margin:10px 0;font-size:1.08rem}
+.row{display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap}
+button.shuf{font:700 .95rem var(--body);border:0;border-radius:999px;padding:9px 18px;background:var(--sun);color:#1b1505;cursor:pointer}
+button.shuf:focus-visible{outline:3px solid #fff;outline-offset:2px}
+small{color:var(--muted)}
+.stripe{display:inline-block;width:26px;height:5px;border-radius:3px;background:repeating-linear-gradient(-45deg,#e8c200 0 4px,#1a1a1a 4px 8px);opacity:.8;vertical-align:middle;margin-right:6px}
+footer{margin-top:28px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:12px}
+footer .ver{opacity:.6}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="/">← Family Ecosphere</a>
+<h1>🍽️ Dinner table topics</h1>
+<p class="tag">Things worth talking about at dinner tonight.</p>
+
+<section class="card empty" aria-labelledby="sofar">
+  <span class="ic" aria-hidden="true">🌱</span>
+  <div>
+    <h2 id="sofar">Nothing gathered yet</h2>
+    <p>When you start using the other Family Ecosphere apps, a summary will be collected here of topics to bring up at dinner. For example:</p>
+    <ul>
+      <li>what the children are learning this week, and one question to ask each of them</li>
+      <li>what's coming up – a trip, a match, a school event</li>
+      <li>a film you watched together, and the moment worth talking through</li>
+      <li>a habit someone in the family is working on, so you can cheer them on</li>
+    </ul>
+  </div>
+</section>
+
+<section class="card" aria-labelledby="tonight">
+  <h2 id="tonight">Meanwhile – three questions for tonight</h2>
+  <ol class="qs" id="qs"></ol>
+  <div class="row"><button type="button" class="shuf" id="shuf">Three different ones</button><small>Everyone answers, grown-ups too.</small></div>
+</section>
+
+<p><span class="stripe" aria-hidden="true"></span><small><b>Early days:</b> you can use this now, but expect it to grow and change.</small></p>
+<footer>Family Ecosphere – made by Handy Little Tools. <span class="ver">v1</span></footer>
+</div>
+<script>
+(function(){
+  var Q = ["What was the best part of your day?", "What was the hardest part of your day, and what helped?", "Who made you laugh today?", "What's something you learned that surprised you?",
+    "If you could teach the rest of us one thing, what would it be?", "What's one kind thing someone did today?", "What's one kind thing you did today?",
+    "If you could have any superpower for one day, what would you do with it?", "What's something you're looking forward to this week?",
+    "What would you do if you were in charge for a day?", "Which animal would you be, and why?", "What's a mistake you made this week that taught you something?",
+    "If we could go anywhere tomorrow, where should we go?", "What's a question you've been wondering about lately?", "What made you feel proud recently?",
+    "Who is someone you'd like to get to know better?", "What's the funniest thing that happened this week?", "If you wrote a book, what would it be about?",
+    "What's something that's harder than it looks?", "What should our family try that we've never done?", "What's your favourite thing about our home?",
+    "If you could invent something to fix a problem, what would it be?", "What's a rule you think is really important, and why?",
+    "What did you do today that you'd like to do again tomorrow?", "Who helped you today, and how?", "What's something you'd like to get better at?",
+    "If you could ask a grown-up in this family anything, what would you ask?", "What's one thing you're grateful for today?",
+    "What's the best present you could give someone without spending money?", "What's something brave you did, or want to do?"];
+  var el = document.getElementById("qs");
+  function pick(){ var a = Q.slice(), out = []; for(var i = 0; i < 3; i++) out.push(a.splice(Math.floor(Math.random() * a.length), 1)[0]);
+    el.innerHTML = out.map(function(q){ return "<li>" + q + "</li>"; }).join(""); }
+  document.getElementById("shuf").addEventListener("click", pick); pick(); })();
+</script>
+</body>
+</html>
