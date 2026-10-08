@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Family Ecosphere v3 -->
+<!-- Family Ecosphere v4 -->
 <html lang="en-GB">
 <head>
 <meta charset="utf-8">
@@ -84,16 +84,33 @@ h2{font:600 .9rem var(--disp);color:var(--muted);letter-spacing:.08em;text-trans
 .tile.early{border:1.5px dashed rgba(143,227,196,.55)}
 .tile .tagx{margin-top:auto;align-self:flex-start;font:600 .72rem var(--body);letter-spacing:.02em;color:#8fe3c4;background:rgba(143,227,196,.12);border-radius:999px;padding:2px 9px}
 .tile .tagx+small,.tile small+.tagx{margin-top:0}
-.sat.early .ic{border:1.5px dashed rgba(143,227,196,.75)}
-.key{margin:12px 0 0;color:var(--muted);font-size:.88rem;display:flex;align-items:center;gap:8px}
-.key i{flex:none;width:22px;height:14px;border:1.5px dashed rgba(143,227,196,.75);border-radius:5px}
+
+.key{max-width:560px;margin:14px auto 0;justify-content:center;color:var(--muted);font-size:.88rem;display:flex;align-items:center;gap:8px}
+
+
+/* caution tape: "Early days" – these work now and are still growing */
+.tape{display:inline-flex;padding:3px;background:repeating-linear-gradient(-45deg,#ffd400 0 7px,#141414 7px 14px);box-shadow:0 2px 6px rgba(0,0,0,.45);border-radius:2px}
+.tape b{background:#ffd400;color:#141414;font:800 .64rem/1.25 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:1px 6px;white-space:nowrap}
+.sat .tape{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%) rotate(-8deg);z-index:2;pointer-events:none}
+.sat.early .nm{top:calc(100% + 16px)}
+.key .tape{flex:none}
+
+/* what a tool does: shown under the orbit when you point at or tap an icon */
+.info{max-width:460px;min-height:112px;margin:4px auto 0;text-align:center;padding:12px 16px;border-radius:16px;background:var(--glass);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.info .hint{color:var(--muted);margin:0}
+.info .tn{font:700 1.15rem var(--disp);display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center}
+.info .td{color:var(--muted);margin:0;line-height:1.45}
+.info .go{display:inline-block;margin-top:2px;font:700 .95rem var(--body);color:#1b1505;background:var(--sun);border-radius:999px;padding:7px 16px;text-decoration:none}
+.sat.sel .ic{transform:scale(1.15);box-shadow:0 0 30px rgba(255,216,138,.7)}
+.orbit.held .ring,.orbit.held .sat a{animation-play-state:paused}
 
 footer{margin-top:34px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:12px}
 footer .ver{opacity:.6}
 
 /* phones: a smaller orbit with no names on the ring (the tiles carry them) */
 @media (max-width:640px){
-  :root{--orbit:min(92vw,400px);--r:min(36vw,158px);--sat:50px}
+  :root{--orbit:min(94vw,420px);--r:min(37vw,165px);--sat:54px}
+  .tape b{font-size:.56rem;padding:1px 4px}
   .core{width:104px;height:104px;margin:-52px 0 0 -52px}
   .core span{font-size:1.5rem}.core b{font-size:.9rem}
   .sat .nm{display:none}
@@ -125,29 +142,20 @@ footer .ver{opacity:.6}
 <div class="orbit" role="navigation" aria-label="The tools">
   <div class="core"><div><span aria-hidden="true">👨‍👩‍👧‍👦</span><b>Your family</b></div></div>
   <div class="ring">
-    <div class="sat" style="--i:0"><a href="https://dobytoday.com/" aria-label="DoByToday"><span class="ic">✅</span><span class="nm">DoByToday</span></a></div>
-    <div class="sat" style="--i:1"><a href="https://listbyaisle.com/" aria-label="ListByAisle"><span class="ic">🛒</span><span class="nm">ListByAisle</span></a></div>
-    <div class="sat early" style="--i:2"><a href="https://listbyaisle.com/good-food-for-kids" aria-label="Good Food for Kids (early days)"><span class="ic">🥦</span><span class="nm">Good Food for Kids</span></a></div>
-    <div class="sat" style="--i:3"><a href="https://packbybag.com/" aria-label="PackByBag"><span class="ic">🧳</span><span class="nm">PackByBag</span></a></div>
-    <div class="sat early" style="--i:4"><a href="https://watchbyvalues.com/" aria-label="WatchByValues (early days)"><span class="ic">🎬</span><span class="nm">WatchByValues</span></a></div>
-    <div class="sat early" style="--i:5"><a href="https://learnbyyear.com/" aria-label="LearnByYear (early days)"><span class="ic">📚</span><span class="nm">LearnByYear</span></a></div>
-    <div class="sat early" style="--i:6"><a href="https://dueareset.com/" aria-label="ResetByChoice (early days)"><span class="ic">🌱</span><span class="nm">ResetByChoice</span></a></div>
+    <div class="sat" style="--i:0"><a href="https://dobytoday.com/" aria-label="DoByToday" data-n="DoByToday" data-d="To-do lists, sorted by when. Tick things off as the day goes."><span class="ic">✅</span><span class="nm">DoByToday</span></a></div>
+    <div class="sat" style="--i:1"><a href="https://listbyaisle.com/" aria-label="ListByAisle" data-n="ListByAisle" data-d="Shopping lists, sorted by aisle, so you walk the shop once."><span class="ic">🛒</span><span class="nm">ListByAisle</span></a></div>
+    <div class="sat early" style="--i:2"><a href="https://listbyaisle.com/good-food-for-kids" aria-label="Good Food for Kids (early days)" data-n="Good Food for Kids" data-d="Healthier breakfasts, snacks and dinners children enjoy – and what's really in the snacks. Part of ListByAisle."><span class="ic">🥦</span><span class="tape" aria-hidden="true"><b>Early days</b></span><span class="nm">Good Food for Kids</span></a></div>
+    <div class="sat" style="--i:3"><a href="https://packbybag.com/" aria-label="PackByBag" data-n="PackByBag" data-d="Packing lists, sorted by bag – school, sports, trips."><span class="ic">🧳</span><span class="nm">PackByBag</span></a></div>
+    <div class="sat early" style="--i:4"><a href="https://watchbyvalues.com/" aria-label="WatchByValues (early days)" data-n="WatchByValues" data-d="Films, by values, with moments to talk through together."><span class="ic">🎬</span><span class="tape" aria-hidden="true"><b>Early days</b></span><span class="nm">WatchByValues</span></a></div>
+    <div class="sat early" style="--i:5"><a href="https://learnbyyear.com/" aria-label="LearnByYear (early days)" data-n="LearnByYear" data-d="What your child learns this year – for home education or to support school."><span class="ic">📚</span><span class="tape" aria-hidden="true"><b>Early days</b></span><span class="nm">LearnByYear</span></a></div>
+    <div class="sat early" style="--i:6"><a href="https://dueareset.com/" aria-label="ResetByChoice (early days)" data-n="ResetByChoice" data-d="A page of your own to change a habit – on your own or together as a family."><span class="ic">🌱</span><span class="tape" aria-hidden="true"><b>Early days</b></span><span class="nm">ResetByChoice</span></a></div>
   </div>
 </div>
+<div class="info" id="info" aria-live="polite"></div>
 
-<h2>The tools</h2>
-<div class="grid">
-  <a class="tile" href="https://dobytoday.com/"><span class="top"><span class="em">✅</span><b>DoByToday</b></span><span class="d">To-do lists, sorted by when.</span></a>
-  <a class="tile" href="https://listbyaisle.com/"><span class="top"><span class="em">🛒</span><b>ListByAisle</b></span><span class="d">Shopping lists, sorted by aisle.</span></a>
-  <a class="tile early" href="https://listbyaisle.com/good-food-for-kids"><span class="top"><span class="em">🥦</span><b>Good Food for Kids</b></span><span class="d">Healthier meals and snacks children enjoy.</span><span class="tagx">Early days</span><small>Part of ListByAisle</small></a>
-  <a class="tile" href="https://packbybag.com/"><span class="top"><span class="em">🧳</span><b>PackByBag</b></span><span class="d">Packing lists, sorted by bag.</span></a>
-  <a class="tile early" href="https://watchbyvalues.com/"><span class="top"><span class="em">🎬</span><b>WatchByValues</b></span><span class="d">Films, by values, with moments to talk through.</span><span class="tagx">Early days</span></a>
-  <a class="tile early" href="https://learnbyyear.com/"><span class="top"><span class="em">📚</span><b>LearnByYear</b></span><span class="d">What your child learns this year.</span><span class="tagx">Early days</span></a>
-  <a class="tile early" href="https://dueareset.com/"><span class="top"><span class="em">🌱</span><b>ResetByChoice</b></span><span class="d">A page of your own to change a habit.</span><span class="tagx">Early days</span></a>
-</div>
-<p class="key"><i aria-hidden="true"></i>Early days: these already work, and they're still growing, so expect them to look simple for now and change as we add what you ask for.</p>
+<p class="key"><span class="tape" aria-hidden="true"><b>Early days</b></span>These already work and are still growing, so expect them to look simple for now and change as we add what you ask for.</p>
 
-<footer>Family Ecosphere – made by Handy Little Tools. <span class="ver">v3</span></footer>
+<footer>Family Ecosphere – made by Handy Little Tools. <span class="ver">v4</span></footer>
 </div>
 <script>
 (function(){ var b = document.getElementById("askBtn"), c = document.getElementById("askCard");
@@ -158,6 +166,20 @@ footer .ver{opacity:.6}
       .then(function(r){ if(!r.ok) throw 0; t.value = ""; n.textContent = "Thank you – we've got it."; })
       .catch(function(){ n.textContent = "That didn't send – check your connection and try again."; })
       .then(function(){ b.disabled = false; }); }); })();
+// Point at an icon (or tap it once on a phone) to see what it does; tap again, or the button, to go there
+(function(){ var o = document.querySelector(".orbit"), info = document.getElementById("info"), touch = false, sel = null;
+  var TOUCH = window.matchMedia && matchMedia("(hover: none)").matches;
+  function hint(){ info.innerHTML = '<p class="hint">' + (TOUCH ? "Tap an icon to see what it does" : "Point at an icon to see what it does") + '</p>'; }
+  function show(a){ var early = a.parentNode.classList.contains("early");
+    info.innerHTML = '<div class="tn">' + a.dataset.n + (early ? '<span class="tape"><b>Early days</b></span>' : '') + '</div><p class="td">' + a.dataset.d + (early ? ' It works now and is still growing, so it may look simple.' : '') + '</p><a class="go" href="' + a.href + '">Open ' + a.dataset.n + ' ›</a>'; }
+  function pick(a){ if(sel) sel.parentNode.classList.remove("sel"); sel = a; if(a){ a.parentNode.classList.add("sel"); o.classList.add("held"); show(a); } else { o.classList.remove("held"); hint(); } }
+  o.addEventListener("pointerdown", function(e){ touch = e.pointerType !== "mouse"; });
+  o.addEventListener("click", function(e){ var a = e.target.closest(".sat a"); if(!a) return;
+    if((touch || TOUCH) && sel !== a){ e.preventDefault(); pick(a); } });
+  o.addEventListener("mouseover", function(e){ var a = e.target.closest(".sat a"); if(a && !TOUCH) pick(a); });
+  o.addEventListener("focusin", function(e){ var a = e.target.closest(".sat a"); if(a && !TOUCH && !touch) pick(a); });   // keyboard only: a tap focuses the link too
+  document.addEventListener("click", function(e){ if(sel && !e.target.closest(".orbit") && !e.target.closest("#info")) pick(null); });
+  hint(); })();
 // a quiet starfield that twinkles slowly (still if the device asks for less motion)
 (function(){ var cv = document.getElementById("stars"), x = cv.getContext && cv.getContext("2d"); if(!x) return;
   var still = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches, S = [], w, h, d;
