@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Family Ecosphere v7 -->
+<!-- Family Ecosphere v8 -->
 <html lang="en-GB">
 <head>
 <meta charset="utf-8">
@@ -146,7 +146,7 @@ button.core{border:0;cursor:pointer;font:inherit;padding:8px;display:flex;flex-d
 .cnt button{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--glass);color:var(--ink);font:700 1.1rem var(--body);cursor:pointer}
 .cnt output{min-width:20px;text-align:center;font-weight:700}
 .whodone{font:700 .9rem var(--body);border:0;border-radius:999px;padding:7px;background:var(--sun);color:#1b1505;cursor:pointer}
-@media (max-width:640px){.who{top:calc(50% + 58px)}.core .ppl{font-size:1.15rem;max-width:90px}.core .ppl.many{font-size:.9rem}}
+@media (max-width:640px){.core .ppl{font-size:1.15rem;max-width:90px}.core .ppl.many{font-size:.9rem}}
 
 /* early days, quietly: a thin caution-striped line */
 .stripe{display:inline-block;flex:none;width:30px;height:5px;border-radius:3px;background:repeating-linear-gradient(-45deg,#e8c200 0 4px,#1a1a1a 4px 8px);opacity:.8}
@@ -161,6 +161,27 @@ button.core{border:0;cursor:pointer;font:inherit;padding:8px;display:flex;flex-d
 @media (max-width:640px){.sat.early .stripe{display:inline-block}}
 /* list: a bolder stripe so it reads at a glance */
 .prow .stripe{width:44px;height:8px;border-radius:4px;opacity:.9}
+
+/* who's in the middle: each person's look (woman / man / person, girl / boy / child) and skin tone, or a photo */
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.who{background:#0d1430;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(360px,calc(100vw - 32px));max-height:calc(100vh - 40px);overflow-y:auto}
+.plist{display:flex;flex-direction:column;gap:8px}
+.pr{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;padding:8px;border:1px solid var(--line);border-radius:12px}
+.pr .pe{flex:none;font-size:1.5rem;width:30px;text-align:center}
+.pr select{font:inherit;font-size:.88rem;background:var(--space);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:4px 6px}
+.tones{display:flex;gap:3px;flex:none}
+.tones button{width:20px;height:20px;flex:none;border-radius:50%;border:2px solid transparent;cursor:pointer;padding:0}
+.tones button[aria-pressed="true"]{border-color:#fff;box-shadow:0 0 0 2px var(--sun)}
+.pr .rm{margin-left:auto;flex:none;padding:0 2px;background:none;border:0;color:var(--muted);font-size:1.2rem;cursor:pointer}
+.addrow{display:flex;gap:8px}
+.addrow button,.px{flex:1;font:600 .88rem var(--body);border:1px dashed var(--line);background:none;color:var(--ink);border-radius:10px;padding:7px;cursor:pointer}
+.photo{display:flex;flex-direction:column;gap:6px}
+.pbtn{display:block;text-align:center;font:600 .9rem var(--body);border:1px solid var(--line);border-radius:10px;padding:8px;cursor:pointer;background:var(--glass)}
+.photo small{color:var(--muted);font-size:.78rem;text-align:center}
+.core .cimg{width:100%;height:100%;object-fit:cover;border-radius:50%;position:absolute;inset:0}
+.core.hasimg{padding:0;overflow:visible}
+.core.hasimg b{position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);white-space:nowrap;background:var(--sun);border-radius:999px;padding:2px 10px;font-size:.85rem}
+.core.hasimg .edit{display:none}
 
 footer{margin-top:34px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:12px}
 footer .ver{opacity:.6}
@@ -200,10 +221,11 @@ footer .ver{opacity:.6}
 
 <div class="orbit" role="navigation" aria-label="The tools">
   <button type="button" class="core" id="core" aria-expanded="false" aria-controls="who"><span class="ppl" id="ppl" aria-hidden="true">👨‍👩‍👧‍👦</span><b id="coreName">Your family</b><small class="edit">change</small></button>
-  <div class="who" id="who" hidden>
+  <div class="who" id="who" hidden role="dialog" aria-label="Who's in the middle">
     <div class="seg" role="group" aria-label="Who is it for"><button type="button" data-who="me">Just me</button><button type="button" data-who="fam">My family</button></div>
-    <div id="famCount"><div class="cnt"><span>Adults</span><button type="button" data-n="a" data-d="-1" aria-label="One fewer adult">−</button><output id="nA">2</output><button type="button" data-n="a" data-d="1" aria-label="One more adult">+</button></div>
-    <div class="cnt"><span>Children</span><button type="button" data-n="k" data-d="-1" aria-label="One fewer child">−</button><output id="nK">2</output><button type="button" data-n="k" data-d="1" aria-label="One more child">+</button></div></div>
+    <div class="plist" id="plist"></div>
+    <div class="addrow" id="addRow"><button type="button" data-add="a">+ Adult</button><button type="button" data-add="c">+ Child</button></div>
+    <div class="photo"><label class="pbtn" for="photoIn">📷 <span id="photoLbl">Use a photo instead</span></label><input type="file" accept="image/*" id="photoIn" class="vh"><button type="button" class="px" id="photoX" hidden>Remove photo</button><small>Your photo stays on this device – it isn't uploaded anywhere.</small></div>
     <button type="button" class="whodone" id="whoDone">Done</button>
   </div>
   <div class="ring">
@@ -221,7 +243,7 @@ footer .ver{opacity:.6}
 
 <p class="key"><span class="stripe" aria-hidden="true"></span><span><b>Early days:</b> you can still use these sites, but expect the look to be updated.</span></p>
 
-<footer>Family Ecosphere – made by Handy Little Tools. <span class="ver">v7</span></footer>
+<footer>Family Ecosphere – made by Handy Little Tools. <span class="ver">v8</span></footer>
 </div>
 <script>
 (function(){ var b = document.getElementById("askBtn"), c = document.getElementById("askCard");
@@ -236,22 +258,54 @@ footer .ver{opacity:.6}
 (function(){ var V = "fe-view", v = "orbit"; try{ v = localStorage.getItem(V) || "orbit"; }catch(e){}
   function set(x){ document.body.classList.toggle("plain", x === "plain"); document.querySelectorAll("[data-view]").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.view === x)); }); try{ localStorage.setItem(V, x); }catch(e){} }
   document.querySelector(".views").addEventListener("click", function(e){ var b = e.target.closest("[data-view]"); if(b) set(b.dataset.view); }); set(v); })();
-// The centre: just you, or your family – with the right number of grown-ups and children (remembered on this device)
-(function(){ var K = "fe-who", W = {who:"fam", a:2, k:2}; try{ var x = JSON.parse(localStorage.getItem(K) || "null"); if(x) W = x; }catch(e){}
+// The centre: just you, or your family – each person's look and skin tone, or a photo (all kept on this device only)
+(function(){ var K = "fe-who", PK = "fe-photo", W = null;
+  try{ W = JSON.parse(localStorage.getItem(K) || "null"); }catch(e){}
+  if(!W || !Array.isArray(W.people)){ var a = W && W.a != null ? W.a : 2, k = W && W.k != null ? W.k : 2, ppl = [];   // from the earlier counts
+    for(var i = 0; i < a; i++) ppl.push({k:"a", g:i === 0 ? "f" : i === 1 ? "m" : "n", s:0});
+    for(var j = 0; j < k; j++) ppl.push({k:"c", g:j % 2 ? "m" : "f", s:0});
+    W = {who:W && W.who || "fam", people:ppl, me:{g:"n", s:0}}; }
   var core = document.getElementById("core"), box = document.getElementById("who"), o = document.querySelector(".orbit");
-  var AD = ["👩", "👨", "🧑", "👵", "👴", "🧓"], KD = ["👧", "👦", "🧒", "👶", "👧", "👦", "🧒", "👶", "👧", "👦"];
-  function draw(){ var me = W.who === "me", p = document.getElementById("ppl"), ppl = me ? "🧑" : AD.slice(0, W.a).join("") + KD.slice(0, W.k).join("");
-    p.textContent = ppl; p.classList.toggle("many", !me && W.a + W.k > 4);
+  var EM = {a:{f:"👩", m:"👨", n:"🧑"}, c:{f:"👧", m:"👦", n:"🧒"}}, SK = ["", "\u{1F3FB}", "\u{1F3FC}", "\u{1F3FD}", "\u{1F3FE}", "\u{1F3FF}"];
+  var SW = ["#ffcc4d", "#f7d7c4", "#e8b894", "#c68e63", "#8d5a3b", "#4f3423"], SN = ["Default yellow", "Light", "Medium-light", "Medium", "Medium-dark", "Dark"];
+  var GN = {a:[["f", "Woman"], ["m", "Man"], ["n", "Person"]], c:[["f", "Girl"], ["m", "Boy"], ["n", "Child"]]};
+  function em(p){ return EM[p.k][p.g] + SK[p.s || 0]; }
+  function photo(){ try{ return localStorage.getItem(PK) || ""; }catch(e){ return ""; } }
+  function row(p, i){ return '<div class="pr" data-i="' + i + '"><span class="pe" aria-hidden="true">' + em(p) + '</span>'
+      + '<select data-g="' + i + '" aria-label="Who">' + GN[p.k].map(function(x){ return '<option value="' + x[0] + '"' + (p.g === x[0] ? " selected" : "") + '>' + x[1] + '</option>'; }).join("") + '</select>'
+      + '<span class="tones" role="group" aria-label="Skin tone">' + SW.map(function(c, t){ return '<button type="button" data-t="' + i + ':' + t + '" style="background:' + c + '" aria-label="' + SN[t] + '" aria-pressed="' + ((p.s || 0) === t) + '"></button>'; }).join("") + '</span>'
+      + (i >= 0 && W.who === "fam" && W.people.length > 1 ? '<button type="button" class="rm" data-rm="' + i + '" aria-label="Remove">×</button>' : '') + '</div>'; }
+  function draw(){ var me = W.who === "me", p = document.getElementById("ppl"), ph = photo(), list = me ? [W.me] : W.people;
+    var old = core.querySelector(".cimg"); if(old) old.remove();
+    core.classList.toggle("hasimg", !!ph);
+    if(ph){ var im = document.createElement("img"); im.className = "cimg"; im.alt = ""; im.src = ph; core.insertBefore(im, core.firstChild); p.textContent = ""; }
+    else { var ord = me ? list : list.filter(function(x){ return x.k === "a"; }).concat(list.filter(function(x){ return x.k === "c"; })), ppl = ord.map(function(x){ return em(me ? {k:"a", g:x.g, s:x.s} : x); }).join(""); p.textContent = ppl; p.classList.toggle("many", list.length > 4); }
     document.getElementById("coreName").textContent = me ? "You" : "Your family";
-    document.getElementById("nA").textContent = W.a; document.getElementById("nK").textContent = W.k; document.getElementById("famCount").hidden = me;
     box.querySelectorAll("[data-who]").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.who === W.who)); });
-    box.querySelectorAll("[data-n]").forEach(function(b){ var v = W[b.dataset.n] + +b.dataset.d; b.disabled = b.dataset.n === "a" ? v < 1 || v > 6 : v < 0 || v > 10; });
+    document.getElementById("plist").innerHTML = me ? row({k:"a", g:W.me.g, s:W.me.s}, -1) : W.people.map(row).join("");
+    document.getElementById("addRow").hidden = me;
+    document.getElementById("photoX").hidden = !ph; document.getElementById("photoLbl").textContent = ph ? "Change the photo" : "Use a photo instead";
     try{ localStorage.setItem(K, JSON.stringify(W)); }catch(e){} }
+  function person(i){ return i < 0 ? W.me : W.people[i]; }
   function open(on){ box.hidden = !on; core.setAttribute("aria-expanded", String(on)); o.classList.toggle("held", on); }
   core.addEventListener("click", function(){ open(box.hidden); });
   box.addEventListener("click", function(e){ var b = e.target.closest("button"); if(!b) return;
-    if(b.dataset.who) W.who = b.dataset.who; else if(b.dataset.n) W[b.dataset.n] += +b.dataset.d; else if(b.id === "whoDone"){ open(false); return; } draw(); });
-  document.addEventListener("click", function(e){ if(!box.hidden && !e.target.closest("#who") && !e.target.closest("#core")) open(false); });
+    if(b.dataset.who) W.who = b.dataset.who;
+    else if(b.dataset.t){ var q = b.dataset.t.split(":"); person(+q[0]).s = +q[1]; }
+    else if(b.dataset.rm){ W.people.splice(+b.dataset.rm, 1); }
+    else if(b.dataset.add){ if(W.people.length >= 12) return; W.people.push({k:b.dataset.add, g:"n", s:(W.people[0] || {}).s || 0}); }
+    else if(b.id === "photoX"){ try{ localStorage.removeItem(PK); }catch(x){} }
+    else if(b.id === "whoDone"){ open(false); return; }
+    draw(); });
+  box.addEventListener("change", function(e){ var t = e.target;
+    if(t.dataset && t.dataset.g != null){ person(+t.dataset.g).g = t.value; draw(); return; }
+    if(t.id === "photoIn" && t.files && t.files[0]){ var fr = new FileReader();
+      fr.onload = function(){ var img = new Image(); img.onload = function(){ var n = 320, c = document.createElement("canvas"); c.width = c.height = n; var x = c.getContext("2d"), m = Math.min(img.width, img.height);
+          x.drawImage(img, (img.width - m) / 2, (img.height - m) / 2, m, m, 0, 0, n, n);
+          try{ localStorage.setItem(PK, c.toDataURL("image/jpeg", .82)); }catch(err){ alert("That photo is too big to keep – try a smaller one"); } t.value = ""; draw(); };
+        img.src = fr.result; }; fr.readAsDataURL(t.files[0]); } });
+  document.addEventListener("click", function(e){ if(!box.hidden && e.target.isConnected && !e.target.closest("#who") && !e.target.closest("#core")) open(false); });   // a button just redrawn inside the box isn't a click outside
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape" && !box.hidden) open(false); });
   draw(); })();
 // Point at an icon (or tap it once on a phone) to see what it does; tap again, or the button, to go there
 (function(){ var o = document.querySelector(".orbit"), info = document.getElementById("info"), touch = false, sel = null;
