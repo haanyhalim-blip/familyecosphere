@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Family Ecosphere v4 -->
+<!-- Family Ecosphere v5 -->
 <html lang="en-GB">
 <head>
 <meta charset="utf-8">
@@ -104,6 +104,32 @@ h2{font:600 .9rem var(--disp);color:var(--muted);letter-spacing:.08em;text-trans
 .sat.sel .ic{transform:scale(1.15);box-shadow:0 0 30px rgba(255,216,138,.7)}
 .orbit.held .ring,.orbit.held .sat a{animation-play-state:paused}
 
+/* view switch: Orbit (space) or List (light, like the other sites) */
+.views{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--glass)}
+.views button{font:600 .85rem var(--body);color:var(--muted);background:none;border:0;border-radius:999px;padding:6px 12px;cursor:pointer}
+.views button[aria-pressed="true"]{background:var(--sun);color:#1b1505}
+.plainlist{display:none;max-width:560px;margin:18px auto 0;background:var(--card2);border:1.5px solid var(--line);border-radius:16px;padding:6px}
+.prow{display:flex;align-items:center;gap:12px;padding:10px;border-radius:12px;text-decoration:none;color:var(--ink)}
+.prow:hover,.prow:focus-visible{background:var(--hov);outline:none}
+.prow .pi{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:1.4rem}
+.prow .pt{min-width:0;flex:1}
+.prow b{display:block;font:700 1rem var(--body)}
+.prow small{display:block;color:var(--muted);font-size:.86rem;line-height:1.35}
+.prow .tape{flex:none;box-shadow:none}
+.prow .arr{flex:none;color:var(--muted);font-size:1.2rem}
+body.plain{--ink:#1f2a22;--muted:#66705f;--line:#ddd7c9;--glass:#fff;--glass2:#f3efe6;--card2:#fff;--hov:#f4f1ea;--sun:#2f5d3a;background:#f4f1ea;color-scheme:light}
+body.plain .views button[aria-pressed="true"]{color:#fff}
+body.plain h1 span{color:#2f5d3a}
+body.plain #stars,body.plain .orbit,body.plain .info{display:none}
+body.plain .plainlist{display:block}
+body.plain .askcard{background:#fff;color:var(--ink)}
+body.plain .askcard button{color:#fff}
+body.plain .askcard textarea{background:#fff}
+body.plain .key{max-width:560px}
+@media (prefers-color-scheme:dark){body.plain{--ink:#eef2ee;--muted:#a9b3a8;--line:#3a423c;--glass:#222824;--glass2:#2b322d;--card2:#222824;--hov:#2b322d;--sun:#8fc79c;background:#171b18;color-scheme:dark}
+  body.plain h1 span{color:#8fc79c} body.plain .askcard{background:#222824} body.plain .askcard textarea{background:#1b201c} body.plain .askcard button,body.plain .views button[aria-pressed="true"]{color:#132016}
+  body.plain .prow .pi{filter:brightness(.85)}}
+
 footer{margin-top:34px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:12px}
 footer .ver{opacity:.6}
 
@@ -129,6 +155,7 @@ footer .ver{opacity:.6}
   <h1>Family <span>Ecosphere</span></h1>
   <button type="button" class="ask" id="askBtn" aria-expanded="false" aria-controls="askCard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/></svg>Tell us what would help</button>
   <p class="tag">Everyday tools for you and your family.</p>
+  <div class="views" role="group" aria-label="View"><button type="button" data-view="orbit" aria-pressed="true">🪐 Orbit</button><button type="button" data-view="plain" aria-pressed="false">☰ List</button></div>
 </header>
 
 <div class="askcard" id="askCard" hidden>
@@ -152,10 +179,11 @@ footer .ver{opacity:.6}
   </div>
 </div>
 <div class="info" id="info" aria-live="polite"></div>
+<nav class="plainlist" aria-label="The tools"><a class="prow" href="https://dobytoday.com/"><span class="pi" style="background:#f7e3d6">✅</span><span class="pt"><b>DoByToday</b><small>To-do lists, sorted by when</small></span><span class="arr" aria-hidden="true">›</span></a><a class="prow" href="https://listbyaisle.com/"><span class="pi" style="background:#e3e8f6">🛒</span><span class="pt"><b>ListByAisle</b><small>Shopping lists, sorted by aisle</small></span><span class="arr" aria-hidden="true">›</span></a><a class="prow" href="https://listbyaisle.com/good-food-for-kids"><span class="pi" style="background:#fbe9c9">🥦</span><span class="pt"><b>Good Food for Kids</b><small>Healthier meals and snacks children enjoy</small></span><span class="tape"><b>Early days</b></span><span class="arr" aria-hidden="true">›</span></a><a class="prow" href="https://packbybag.com/"><span class="pi" style="background:#dfeee6">🧳</span><span class="pt"><b>PackByBag</b><small>Packing lists, sorted by bag</small></span><span class="arr" aria-hidden="true">›</span></a><a class="prow" href="https://watchbyvalues.com/"><span class="pi" style="background:#ece6f5">🎬</span><span class="pt"><b>WatchByValues</b><small>Films, by values</small></span><span class="tape"><b>Early days</b></span><span class="arr" aria-hidden="true">›</span></a><a class="prow" href="https://learnbyyear.com/"><span class="pi" style="background:#e6edfb">📚</span><span class="pt"><b>LearnByYear</b><small>What your child learns this year</small></span><span class="tape"><b>Early days</b></span><span class="arr" aria-hidden="true">›</span></a><a class="prow" href="https://dueareset.com/"><span class="pi" style="background:#e6efe0">🌱</span><span class="pt"><b>ResetByChoice</b><small>A page of your own to change a habit</small></span><span class="tape"><b>Early days</b></span><span class="arr" aria-hidden="true">›</span></a></nav>
 
 <p class="key"><span class="tape" aria-hidden="true"><b>Early days</b></span>These already work and are still growing, so expect them to look simple for now and change as we add what you ask for.</p>
 
-<footer>Family Ecosphere – made by Handy Little Tools. <span class="ver">v4</span></footer>
+<footer>Family Ecosphere – made by Handy Little Tools. <span class="ver">v5</span></footer>
 </div>
 <script>
 (function(){ var b = document.getElementById("askBtn"), c = document.getElementById("askCard");
@@ -166,6 +194,10 @@ footer .ver{opacity:.6}
       .then(function(r){ if(!r.ok) throw 0; t.value = ""; n.textContent = "Thank you – we've got it."; })
       .catch(function(){ n.textContent = "That didn't send – check your connection and try again."; })
       .then(function(){ b.disabled = false; }); }); })();
+// Orbit or List: remembered on this device
+(function(){ var V = "fe-view", v = "orbit"; try{ v = localStorage.getItem(V) || "orbit"; }catch(e){}
+  function set(x){ document.body.classList.toggle("plain", x === "plain"); document.querySelectorAll("[data-view]").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.view === x)); }); try{ localStorage.setItem(V, x); }catch(e){} }
+  document.querySelector(".views").addEventListener("click", function(e){ var b = e.target.closest("[data-view]"); if(b) set(b.dataset.view); }); set(v); })();
 // Point at an icon (or tap it once on a phone) to see what it does; tap again, or the button, to go there
 (function(){ var o = document.querySelector(".orbit"), info = document.getElementById("info"), touch = false, sel = null;
   var TOUCH = window.matchMedia && matchMedia("(hover: none)").matches;
