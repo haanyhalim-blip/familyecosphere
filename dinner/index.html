@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Family Ecosphere – Dinner table topics v2 -->
+<!-- Family Ecosphere – Dinner table topics v3 -->
 <html lang="en-GB">
 <head>
 <meta charset="utf-8">
@@ -103,7 +103,7 @@ footer .ver{opacity:.6}
   </div>
   <div id="acIn" hidden><p>Signed in as <b id="acWho"></b>.</p><button class="acgo" id="acOutBtn" type="button">Sign out</button></div>
 </div></div>
-<footer>Family Ecosphere – made by Handy Little Tools. <span class="ver">v2</span></footer>
+<footer>Family Ecosphere – made by Handy Little Tools. <span class="ver">v3</span></footer>
 </div>
 <script>
 (function(){
@@ -165,7 +165,11 @@ footer .ver{opacity:.6}
     if(w){ who = w[1].split(/\s*(?:&|,|and)\s*/); t = w[2]; }
     return {who:who, what:t.trim(), timed:timed}; }
   function itemsOf(st){ var out = []; ((st && st.own) || []).forEach(function(o){ if(o && o.n) out.push({n:o.n, note:(st.note || {})[o.n] || "", got:!!o.got}); }); Object.keys((st && st.picked) || {}).forEach(function(n){ out.push({n:n, note:(st.note || {})[n] || "", got:!!(st.got || {})[n]}); }); return out; }
-  function dayCard(L, day){ return (L || []).filter(function(l){ return l && /timetable/i.test(l.group || "") && String(l.name || "").toLowerCase().indexOf(day.toLowerCase()) === 0; })[0]; }
+  // a card made for one date ("Fri 9 Oct – …") wins over the usual weekday card ("Friday – …"), as in DobyToday
+  function cardDate(name){ var M = ["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"], m = String(name || "").match(/^\s*(?:(?:mon|tue|wed|thu|fri|sat|sun)[a-z]*,?\s+)?(\d{1,2})(?:st|nd|rd|th)?\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?(?:\s+(\d{4}))?\b/i); if(!m) return "";
+    var mo = M.indexOf(m[2].toLowerCase()), now = new Date(), y = m[3] ? +m[3] : now.getFullYear(), d = new Date(y, mo, +m[1]); if(!m[3] && d < new Date(now.getFullYear(), now.getMonth() - 6, 1)) d = new Date(y + 1, mo, +m[1]); return iso(d); }
+  function dayCard(L, date){ var tt = (L || []).filter(function(l){ return l && /timetable/i.test(l.group || ""); }), day = DAYS[date.getDay()].toLowerCase(), want = iso(date);
+    return tt.filter(function(l){ return cardDate(l.name) === want; })[0] || tt.filter(function(l){ return !cardDate(l.name) && String(l.name || "").toLowerCase().indexOf(day) === 0; })[0]; }
   function fmtD(d){ var p = String(d).split("-"); if(p.length !== 3) return d; var x = new Date(+p[0], +p[1] - 1, +p[2]); return DAYS[x.getDay()].slice(0, 3) + " " + x.getDate() + " " + ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][x.getMonth()]; }
   function low(s){ return s.charAt(0).toLowerCase() + s.slice(1); }
   function askFor(what){ var w = what.toLowerCase();
@@ -191,7 +195,7 @@ footer .ver{opacity:.6}
         if(!p.who.length && !p.timed) return;
         var targets = p.who.length ? p.who : ["The whole family"];
         targets.forEach(function(n){ var e = who(n), k2 = ROUTINE.test(p.what) ? (key === "today" ? "rt" : "") : key; if(k2 && e[k2].indexOf(p.what) < 0) e[k2].push(p.what); }); }); }
-      addDay(dayCard(D.L, DAYS[now.getDay()]), "today"); addDay(dayCard(D.L, DAYS[tom.getDay()]), "tom");
+      addDay(dayCard(D.L, now), "today"); addDay(dayCard(D.L, tom), "tom");
       // tomorrow's jobs already on the to-do list
       ((D.s && D.s.later) || []).filter(function(j){ return j && j.d === iso(tom) && j.n; }).slice(0, 5).forEach(function(j){ var p = parse(j.n); (p.who.length ? p.who : ["The whole family"]).forEach(function(n){ var e = who(n); if(e.tom.indexOf(p.what) < 0) e.tom.push(p.what); }); });
       // LearnbyYear: homework still to do, and what school said this week
